@@ -10,6 +10,7 @@ requests = "^2.25.1"
 pandas = "^1.2.0"
 spacy = "^2.3.5"
 ipykernel = "^5.4.3"
+nltk = "^3.5"
 
 [tool.poetry.dev-dependencies]
 
