@@ -11,6 +11,7 @@ pandas = "^1.2.0"
 spacy = "^2.3.5"
 ipykernel = "^5.4.3"
 nltk = "^3.5"
+textacy = "^0.10.1"
 
 [tool.poetry.dev-dependencies]
 
