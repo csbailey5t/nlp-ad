@@ -12,6 +12,7 @@ spacy = "^2.3.5"
 ipykernel = "^5.4.3"
 nltk = "^3.5"
 textacy = "^0.10.1"
+matplotlib = "^3.3.4"
 
 [tool.poetry.dev-dependencies]
 
