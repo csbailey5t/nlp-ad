@@ -13,6 +13,7 @@ ipykernel = "^5.4.3"
 nltk = "^3.5"
 textacy = "^0.10.1"
 matplotlib = "^3.3.4"
+jupyterlab = "^3.0.7"
 
 [tool.poetry.dev-dependencies]
 
