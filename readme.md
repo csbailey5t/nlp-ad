@@ -13,3 +13,13 @@ After you've cloned this repository, run `poetry install` to install dependencie
 Analysis code using `spaCy` requires an installed language model. For the current code, which uses v2 of `spaCy`, install the large English language model. Within an activated virtual environment, run `python -m spacy download en_core_web_lg`.
 
 The project uses Jupyter notebooks. `poc.ipynb` is a running experimentation file. As chunks settle, they'll be abstracted out into individual notebooks or scripts. `data.ipynb` is one example, which covers downloading json data from a Drupal endpoint for Libraries workshops, and doing a bit of cleaning before writing to a dated csv file.
+
+## Key libraries
+
+If you prefer to use different virtualenv and depedency management libraries/approaches, here are the main Python libraries we're using:
+
+- `pandas`
+- `requests`
+- `spacy` - use 2.x version for now so that `textacy` works.
+- `textacy`
+- `transformers`
