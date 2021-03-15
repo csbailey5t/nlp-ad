@@ -1,6 +1,6 @@
 # Using NLP to fuel library discovery
 
-This is an experimental project to discover ways that natural language processing can provide different forms of discovery for library collections, workshops, and events.
+This is an experimental project to discover ways that natural language processing and machine learning can provide different forms of discovery for library collections, workshops, and events.
 
 The initial version attempts to surface relevant workshops on various types of catalog and Libraries' website pages, beyond the limitations of existing keyword searches.
 
@@ -23,3 +23,5 @@ If you prefer to use different virtualenv and depedency management libraries/app
 - `spacy` - use 2.x version for now so that `textacy` works.
 - `textacy`
 - `transformers`
+
+The Streamlit app for exploring the textual data uses `spacy-streamlit`, which requires `spacy` >= 3. The current `requirements.txt` file reflects the virtual environment for the Streamlit app. This is a hacky approach, but given the different dependency requirements, useful until we refactor the code to not use `textacy` or that library is updated to `spacy` 3. 
