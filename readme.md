@@ -23,5 +23,10 @@ If you prefer to use different virtualenv and depedency management libraries/app
 - `spacy` - use 2.x version for now so that `textacy` works.
 - `textacy`
 - `transformers`
+- `typer`
 
-The Streamlit app for exploring the textual data uses `spacy-streamlit`, which requires `spacy` >= 3. The current `requirements.txt` file reflects the virtual environment for the Streamlit app. This is a hacky approach, but given the different dependency requirements, useful until we refactor the code to not use `textacy` or that library is updated to `spacy` 3. 
+The Streamlit app for exploring the textual data uses `spacy-streamlit`, which requires `spacy` >= 3. The current `requirements.txt` file reflects the virtual environment for the Streamlit app. This is a hacky approach, but given the different dependency requirements, useful until we refactor the code to not use `textacy` or that library is updated to `spacy` 3.
+
+## Scripts
+
+- `match_titles.py` is a brief CLI to return the workshop titles similar to the submitted query according to vectors from the spaCy `en_core_web_lg` model. It's currently hardcoded with a cutoff of >= 0.8. To run the script, within the active virtual environment, run `python match_titles.py query`, where the query is a string.
