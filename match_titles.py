@@ -4,9 +4,12 @@ Goal: given a search string, find the most similar title
 
 import pandas as pd
 import spacy
+import typer
+
+from pandas import DataFrame
 
 
-def load_data(fn, title_col):
+def load_data(fn: str, title_col: str) -> DataFrame:
     """
     Takes a path to csv file, loads data from title col
     Parameters:
@@ -16,18 +19,18 @@ def load_data(fn, title_col):
     return pd.read_csv(fn, usecols=[f"{title_col}"])
 
 
-def main(fn, title_col):
+def main(query: str):
     """
-    Entry function
-    # Parameters:
-    fn (string): path/to/file
+    Find workshop titles with >= .8 similarity to the submitted query
     """
+    fn = "all-workshops-2021-02-04.csv"
+    title_col = "title"
+
     nlp = spacy.load("en_core_web_lg")
 
     df = load_data(fn, title_col)
-    docs = list(nlp.pipe(title for title in df["title"]))
+    docs = list(nlp.pipe(title for title in df[f"{title_col}"]))
 
-    query = "R"
     query_doc = nlp(query)
 
     simils = [query_doc.similarity(title_doc) for title_doc in docs]
@@ -37,10 +40,8 @@ def main(fn, title_col):
     # https://stackoverflow.com/questions/55921104/spacy-similarity-warning-evaluating-doc-similarity-based-on-empty-vectors
     matches = [(docs[i], val) for i, val in enumerate(simils) if val >= 0.8]
 
-    print(matches)
+    typer.echo(matches)
 
 
 if __name__ == "__main__":
-    fn = "all-workshops-2021-02-04.csv"
-    title_col = "title"
-    main(fn, title_col)
+    typer.run(main)
