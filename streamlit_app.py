@@ -3,6 +3,7 @@ import spacy
 import spacy_streamlit
 import streamlit as st
 
+from match_titles import get_similar_titles, build_corpus
 
 models = ["en_core_web_sm", "en_core_web_md"]
 
@@ -42,7 +43,7 @@ def single(selected_workshop, df, ner_labels):
     spacy_streamlit.visualize_ner(doc, labels=ner_labels, title="Named entities")
 
 
-def all(df, num_workshops):
+def all(df, num_workshops, nlp, docs):
     st.subheader("Raw data")
     st.write(df)
 
@@ -51,6 +52,15 @@ def all(df, num_workshops):
 
     st.subheader("Most common tags")
     st.write(tag_count(df))
+
+    st.subheader("Similarity query")
+    query_section(nlp, docs)
+
+
+def query_section(nlp, docs):
+    query = st.text_input(label="query string", value="Python")
+    matches = get_similar_titles(query, docs, nlp)
+    st.write(matches)
 
 
 def main():
@@ -61,6 +71,9 @@ def main():
 
     nlp = spacy.load("en_core_web_md")
     ner_labels = nlp.get_pipe("ner").labels
+
+    # for convenience, we'll repeat this chunk
+    docs = build_corpus("all-workshops-2021-02-04.csv", "title", nlp)
 
     # Sidebar area
     st.sidebar.title("Options")
@@ -81,7 +94,7 @@ def main():
     if selected_level == "Single workshop":
         single(selected_workshop, df_dedup, ner_labels)
     else:
-        all(df_full, num_workshops)
+        all(df_full, num_workshops, nlp, docs)
 
 
 if __name__ == "__main__":
