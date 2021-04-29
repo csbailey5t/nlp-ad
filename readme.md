@@ -30,3 +30,11 @@ The Streamlit app for exploring the textual data uses `spacy-streamlit`, which r
 ## Scripts
 
 - `match_titles.py` is a brief CLI to return the workshop titles similar to the submitted query according to vectors from the spaCy `en_core_web_lg` model. It's currently hardcoded with a cutoff of >= 0.8. To run the script, within the active virtual environment, run `python match_titles.py query`, where the query is a string.
+
+## Streamlit app
+
+This project uses Streamlit to provide a front end for exploration of our data and experiments. To run the Streamlit app:
+
+`streamlit run streamlit_app.py`
+
+The top-level script of the app is at the root of the project directory. Individual pages are separate Python files in the `ui_pages` directory, and expose functions imported into the top-level script for use.
