@@ -5,6 +5,7 @@ import streamlit as st
 from match_titles import build_corpus
 from ui_pages.single import single
 from ui_pages.all import all
+from ui_pages.title_similarity import query_section
 
 models = ["en_core_web_sm", "en_core_web_md"]
 
@@ -38,7 +39,9 @@ def main():
     # Sidebar area
     st.sidebar.title("Options")
     st.sidebar.subheader("Select analysis level")
-    selected_level = st.sidebar.selectbox("Level", ["Single workshop", "All workshops"])
+    selected_level = st.sidebar.selectbox(
+        "Level", ["Single workshop", "Match title", "All workshops"]
+    )
 
     st.sidebar.subheader("Single workshop options")
     selected_workshop = st.sidebar.selectbox("Select workshop", titles)
@@ -53,8 +56,10 @@ def main():
 
     if selected_level == "Single workshop":
         single(selected_workshop, df_dedup, ner_labels)
+    elif selected_level == "Match title":
+        query_section(nlp, docs)
     else:
-        all(df_full, num_workshops, nlp, docs)
+        all(df_full, num_workshops)
 
 
 if __name__ == "__main__":
