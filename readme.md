@@ -6,26 +6,13 @@ The initial version attempts to surface relevant workshops on various types of c
 
 ## Running the project code
 
-The project currently manages libraries and virtual environments with [`poetry`](https://python-poetry.org/).
+The project includes necessary environment files for [`poetry`](https://python-poetry.org/) and `venv`/`virtualenv`.
 
-After you've cloned this repository, run `poetry install` to install dependencies into a new virtual environment.
+After you've cloned this repository, run `poetry install` or `pip install -r requirements.txt` as appropriate to install dependencies into a new virtual environment.
 
-Analysis code using `spaCy` requires an installed language model. For the current code, which uses v2 of `spaCy`, install the large English language model. Within an activated virtual environment, run `python -m spacy download en_core_web_lg`.
+Analysis code using `spaCy` requires an installed language model. The current code uses the small and medium English language models. Within an activated virtual environment, run `python -m spacy download en_core_web_lg` and `python -m spacy download en_core_web_md`.
 
 The project uses Jupyter notebooks. `poc.ipynb` is a running experimentation file. As chunks settle, they'll be abstracted out into individual notebooks or scripts. `data.ipynb` is one example, which covers downloading json data from a Drupal endpoint for Libraries workshops, and doing a bit of cleaning before writing to a dated csv file.
-
-## Key libraries
-
-If you prefer to use different virtualenv and depedency management libraries/approaches, here are the main Python libraries we're using:
-
-- `pandas`
-- `requests`
-- `spacy` - use 2.x version for now so that `textacy` works.
-- `textacy`
-- `transformers`
-- `typer`
-
-The Streamlit app for exploring the textual data uses `spacy-streamlit`, which requires `spacy` >= 3. The current `requirements.txt` file reflects the virtual environment for the Streamlit app. This is a hacky approach, but given the different dependency requirements, useful until we refactor the code to not use `textacy` or that library is updated to `spacy` 3.
 
 ## Scripts
 
@@ -33,7 +20,7 @@ The Streamlit app for exploring the textual data uses `spacy-streamlit`, which r
 
 ## Streamlit app
 
-This project uses Streamlit to provide a front end for exploration of our data and experiments. To run the Streamlit app:
+This project uses Streamlit to provide a front end for exploration of our data and experiments. To run the Streamlit app, within an active virtual environment:
 
 `streamlit run streamlit_app.py`
 
