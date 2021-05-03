@@ -12,7 +12,7 @@ def tag_count(df):
     return df["field_workshop_user_activities"].value_counts()
 
 
-def all(df, num_workshops, nlp, docs):
+def all(df, num_workshops):
     st.subheader("Raw data")
     st.write(df)
 
