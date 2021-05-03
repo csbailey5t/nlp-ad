@@ -6,6 +6,7 @@ from match_titles import build_corpus
 from ui_pages.single import single
 from ui_pages.all import all
 from ui_pages.title_similarity import query_section
+from ui_pages.tfidf import query_tfidf
 
 models = ["en_core_web_sm", "en_core_web_md"]
 
@@ -40,7 +41,7 @@ def main():
     st.sidebar.title("Options")
     st.sidebar.subheader("Select analysis level")
     selected_level = st.sidebar.selectbox(
-        "Level", ["Single workshop", "Match title", "All workshops"]
+        "Level", ["Single workshop", "Match title", "All workshops", "Tf-idf matching"]
     )
 
     st.sidebar.subheader("Single workshop options")
@@ -58,6 +59,8 @@ def main():
         single(selected_workshop, df_dedup, ner_labels)
     elif selected_level == "Match title":
         query_section(nlp, docs)
+    elif selected_level == "Tf-idf matching":
+        query_tfidf()
     else:
         all(df_full, num_workshops)
 
