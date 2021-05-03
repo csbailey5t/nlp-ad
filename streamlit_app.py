@@ -1,3 +1,4 @@
+from wsgiref import simple_server
 import pandas as pd
 import spacy
 import streamlit as st
@@ -7,6 +8,7 @@ from ui_pages.single import single
 from ui_pages.all import all
 from ui_pages.title_similarity import query_section
 from ui_pages.tfidf import query_tfidf
+from ui_pages.simple_keyword import simple_search
 
 models = ["en_core_web_sm", "en_core_web_md"]
 
@@ -41,7 +43,14 @@ def main():
     st.sidebar.title("Options")
     st.sidebar.subheader("Select analysis level")
     selected_level = st.sidebar.selectbox(
-        "Level", ["Single workshop", "Match title", "All workshops", "Tf-idf matching"]
+        "Level",
+        [
+            "Single workshop",
+            "Match title",
+            "All workshops",
+            "Tf-idf matching",
+            "Simple match",
+        ],
     )
 
     st.sidebar.subheader("Single workshop options")
@@ -61,6 +70,8 @@ def main():
         query_section(nlp, docs)
     elif selected_level == "Tf-idf matching":
         query_tfidf()
+    elif selected_level == "Simple match":
+        simple_search()
     else:
         all(df_full, num_workshops)
 
