@@ -1,6 +1,14 @@
 import re
+import json
+import requests
 import pandas as pd
 import urllib.request
+
+# This script takes in a keyword from the user, retrieves the HTML of that
+# search result, and isolates the catalog IDs using regex from the HTML of the search.
+# It then generates valid .JSON urls of each individual item from the previous
+# search and transforms them into one large .JSON file, named
+# 'catalog_results_metadata.json', for further data transformation.
 
 # Get input from user
 search_string = input("Input string you want to search the catalog for: ")
@@ -9,11 +17,11 @@ search_string = input("Input string you want to search the catalog for: ")
 search_string = search_string.replace(' ', '+')
 
 # Modify URL with search string input
-catalogURL = ("https://catalog.lib.ncsu.edu/catalog?q=" + search_string +
+catalogURL_search = ("https://catalog.lib.ncsu.edu/catalog?q=" + search_string +
     "&search_field=all_fields")
 
 # Retrieve HTML of the modified URL and assign it to a decoded string
-with urllib.request.urlopen(catalogURL) as res:
+with urllib.request.urlopen(catalogURL_search) as res:
     catalogHTML = res.read().decode("utf-8")
 
 # Use regex to find all catalog IDs from HTML results
@@ -24,17 +32,9 @@ catalogIDs = re.findall(pattern, catalogHTML)
 catalogURL = 'https://catalog.lib.ncsu.edu/catalog/'
 
 # Creates a list of valid .JSON urls for each catalog ID
-catalogJSON_list = [catalogURL + i + '.json' for i in catalogIDs]
+catalogJSON_urls = [catalogURL + i + '.json' for i in catalogIDs]
 
-# Create a data frame for the URL list
-df = pd.DataFrame(catalogJSON_list, columns=["JSON-Links"])
-
-# Function to convert authority URLs into clickable form
-def fun(path):
-    return '<a href="{}">{}</a>'.format(path, url)
-
-# Applying function to authIDs column
-df = df.style.format({'catalog-JSON-Links' : fun})
-
-# Convert to excel without indexing
-df.to_excel('json-links.xlsx', index=False)
+# Parse all URLs from list and dump into a single JSON file
+with open('catalog_results_metadata.json', 'w') as fp:
+    json.dump([requests.get(url).json() for url in catalogJSON_urls], fp, indent=2)
+    
