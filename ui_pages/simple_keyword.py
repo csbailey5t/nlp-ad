@@ -1,6 +1,10 @@
 import pandas as pd
 import streamlit as st
 
+import nltk
+
+nltk.download("stopwords")
+
 from nltk.corpus import stopwords
 
 from pandas import DataFrame
