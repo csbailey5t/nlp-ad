@@ -31,9 +31,11 @@ def build_corpus(fn: str, title_col: str, model) -> List[Doc]:
 
 
 # TODO: Add type of language model
-def get_similar_titles(query: str, docs: List, model) -> List[Tuple]:
+def get_similar_titles(
+    query: str, docs: List, model, threshold: float = 0.8
+) -> List[Tuple]:
     """
-    Find workshop titles with >= .8 similarity to the submitted query
+    Find workshop titles with cosine similarity >= threshold to the submitted query
     """
     query_doc = model(query)
 
@@ -42,16 +44,16 @@ def get_similar_titles(query: str, docs: List, model) -> List[Tuple]:
     # similarity will throw errors due to words without vectors
     # best to check those first, or disable the warning
     # https://stackoverflow.com/questions/55921104/spacy-similarity-warning-evaluating-doc-similarity-based-on-empty-vectors
-    matches = [(docs[i].text, val) for i, val in enumerate(simils) if val >= 0.8]
+    matches = [(docs[i].text, val) for i, val in enumerate(simils) if val >= threshold]
     return matches
 
 
-def main(query: str):
+def main(query: str, threshold: float = 0.8):
     fn = "all-workshops-2021-02-04.csv"
     title_col = "title"
     nlp = spacy.load("en_core_web_lg")
     docs = build_corpus(fn, title_col, nlp)
-    matches = get_similar_titles(query, docs, nlp)
+    matches = get_similar_titles(query, docs, nlp, threshold)
     typer.echo(matches)
 
 
