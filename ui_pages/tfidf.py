@@ -25,9 +25,11 @@ def match_single_word(query: str, data: DataFrame) -> List[str]:
 def query_tfidf():
     tfidf_data = load_data("workshops_tfidf.csv")
 
-    st.subheader("Match a workshop based on keywords extracted through tf-idf")
+    st.subheader(
+        "Enter a search phrase to find matching workshops based on keywords extracted through term frequency - inverse document frequency (tf-idf)."
+    )
 
-    query = st.text_input(label="query string", value="Python")
+    query = st.text_input(label="Search phrase", value="Python")
 
     matches = match_single_word(query, tfidf_data)
     st.write(matches)

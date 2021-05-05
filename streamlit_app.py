@@ -6,74 +6,48 @@ import streamlit as st
 from match_titles import build_corpus
 from ui_pages.single import single
 from ui_pages.all import all
+from ui_pages.home import home
 from ui_pages.title_similarity import query_section
 from ui_pages.tfidf import query_tfidf
 from ui_pages.simple_keyword import simple_search
 
-models = ["en_core_web_sm", "en_core_web_md"]
-
-
-@st.cache()
-def load_data(fn):
-    df = pd.read_csv(fn)
-    df = df.drop(columns=["Unnamed: 0"])
-
-    df.drop_duplicates(subset=["title"], keep="last", inplace=True)
-    return df
-
-
-@st.cache()
-def load_full_data(fn):
-    return pd.read_csv(fn)
-
 
 def main():
-    df_dedup = load_data("all-workshops-2021-02-04.csv")
-    titles = df_dedup["title"].to_list()
 
-    df_full = load_full_data("all-workshops-2021-02-04.csv")
-
+    # We'll go ahead and do this load and compute while the user selects a page
     nlp = spacy.load("en_core_web_md")
-    ner_labels = nlp.get_pipe("ner").labels
-
-    # for convenience, we'll repeat this chunk
     docs = build_corpus("all-workshops-2021-02-04.csv", "title", nlp)
 
     # Sidebar area
     st.sidebar.title("Options")
-    st.sidebar.subheader("Select analysis level")
+    st.sidebar.subheader("Select page")
     selected_level = st.sidebar.selectbox(
-        "Level",
+        "Pages",
         [
+            "Home",
             "Single workshop",
-            "Match title",
             "All workshops",
-            "Tf-idf matching",
-            "Simple match",
+            "Title similarity search",
+            "Tf-idf keyword search",
+            "Simple query search",
         ],
     )
 
-    st.sidebar.subheader("Single workshop options")
-    selected_workshop = st.sidebar.selectbox("Select workshop", titles)
-
-    st.sidebar.subheader("All workshops options")
-    num_workshops = st.sidebar.slider(
-        "Number of most frequent workshops", 1, len(titles), value=30
-    )
-
     # Main app area
-    st.title("NC State Libraries Workshop Data")
+    st.title("Experiments with NC State University Libraries Catalog and Workshop Data")
 
-    if selected_level == "Single workshop":
-        single(selected_workshop, df_dedup, ner_labels)
-    elif selected_level == "Match title":
+    if selected_level == "Home":
+        home()
+    elif selected_level == "Single workshop":
+        single()
+    elif selected_level == "All workshops":
+        all()
+    elif selected_level == "Title similarity search":
         query_section(nlp, docs)
-    elif selected_level == "Tf-idf matching":
+    elif selected_level == "Tf-idf keyword search":
         query_tfidf()
-    elif selected_level == "Simple match":
+    elif selected_level == "Simple query search":
         simple_search()
-    else:
-        all(df_full, num_workshops)
 
 
 if __name__ == "__main__":

@@ -58,17 +58,19 @@ def match_single_word_description(query: str, data: DataFrame) -> List[str]:
 
 
 def simple_search():
-    st.subheader("Match a query with text in a workshop title or description")
+    st.subheader(
+        "Enter a search phrase to find workshops with matching text in a workshop title or description."
+    )
 
-    query = st.text_input(label="Query", value="Python")
+    query = st.text_input(label="Search phrase", value="Python")
 
     data = load_data("all-workshops-2021-02-04.csv")
 
-    st.write("Title matches")
+    st.write("Titles of matching workshops according to title.")
     title_matches = match_single_word_title(lowercase_and_clean_string(query), data)
     st.write(title_matches)
 
-    st.write("Description matches")
+    st.write("Titles of matching workshops according to description.")
     desc_matches = match_single_word_description(
         lowercase_and_clean_string(query), data
     )
