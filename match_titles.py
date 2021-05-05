@@ -7,6 +7,7 @@ import spacy
 import typer
 
 from spacy.tokens import Doc
+from spacy.language import Language
 from typing import List, Tuple
 from pandas import DataFrame
 
@@ -21,8 +22,7 @@ def load_data(fn: str, title_col: str) -> DataFrame:
     return pd.read_csv(fn, usecols=[f"{title_col}"])
 
 
-# TODO: Add type of language model
-def build_corpus(fn: str, title_col: str, model) -> List[Doc]:
+def build_corpus(fn: str, title_col: str, model: Language) -> List[Doc]:
 
     df = load_data(fn, title_col)
     docs = list(model.pipe(title for title in df[f"{title_col}"]))
@@ -30,9 +30,8 @@ def build_corpus(fn: str, title_col: str, model) -> List[Doc]:
     return docs
 
 
-# TODO: Add type of language model
 def get_similar_titles(
-    query: str, docs: List, model, threshold: float = 0.8
+    query: str, docs: List[Doc], model: Language, threshold: float = 0.8
 ) -> List[Tuple]:
     """
     Find workshop titles with cosine similarity >= threshold to the submitted query
