@@ -41,7 +41,7 @@ def match_single_word_title(query: str, data: DataFrame) -> List[str]:
         i
         for (i, title) in enumerate(data["clean_title"].tolist())
         for word in words
-        if word.lower() in title
+        if word.lower() in nltk.word_tokenize(title)
     ]
     return [titles[i] for i in idxs]
 
@@ -52,7 +52,7 @@ def match_single_word_description(query: str, data: DataFrame) -> List[str]:
         i
         for (i, des) in enumerate(data["clean_body"])
         for word in words
-        if word.lower() in des
+        if word.lower() in nltk.word_tokenize(des)
     ]
     return [data["title"][i] for i in idxs]
 
