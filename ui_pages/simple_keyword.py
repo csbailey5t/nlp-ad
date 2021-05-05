@@ -1,10 +1,16 @@
 import pandas as pd
 import streamlit as st
 
+# import nltk and download stopwords for use
+import nltk
+
+nltk.download("stopwords")
+
 from nltk.corpus import stopwords
 
 from pandas import DataFrame
 from typing import List
+
 
 # should just save a cleaned version to disk to load rather than reclean
 # since we're now also cleaning the query string, could probably skip cleaning data
