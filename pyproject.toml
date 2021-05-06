@@ -15,9 +15,11 @@ textacy = "^0.11.0"
 streamlit = "^0.81.0"
 spacy-streamlit = "^1.0.0"
 transformers = "^4.5.1"
+seaborn = "^0.11.1"
 
 [tool.poetry.dev-dependencies]
 black = {version = "^20.8b1", allow-prereleases = true}
+mypy = "^0.812"
 
 [build-system]
 requires = ["poetry>=0.12"]
