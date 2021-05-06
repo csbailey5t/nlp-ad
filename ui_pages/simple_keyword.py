@@ -1,12 +1,8 @@
 import pandas as pd
 import streamlit as st
 
-# import nltk and download stopwords for use
-import nltk
-
-nltk.download("stopwords")
-
-from nltk.corpus import stopwords
+from nltk import word_tokenize
+from stopwords import en_stopwords
 
 from pandas import DataFrame
 from typing import List
@@ -25,11 +21,12 @@ def load_data(fn: str) -> DataFrame:
 
 
 def lowercase_and_clean_string(phrase: str) -> str:
+    stopwords = en_stopwords()
     return " ".join(
         [
             word.lower()
             for word in phrase.split(" ")
-            if not word.lower() in stopwords.words("english")
+            if not word.lower() in stopwords
         ]
     )
 
@@ -41,7 +38,7 @@ def match_single_word_title(query: str, data: DataFrame) -> List[str]:
         i
         for (i, title) in enumerate(data["clean_title"].tolist())
         for word in words
-        if word.lower() in nltk.word_tokenize(title)
+        if word.lower() in word_tokenize(title)
     ]
     return [titles[i] for i in idxs]
 
@@ -52,7 +49,7 @@ def match_single_word_description(query: str, data: DataFrame) -> List[str]:
         i
         for (i, des) in enumerate(data["clean_body"])
         for word in words
-        if word.lower() in nltk.word_tokenize(des)
+        if word.lower() in word_tokenize(des)
     ]
     return [data["title"][i] for i in idxs]
 
@@ -67,7 +64,8 @@ def simple_search():
     data = load_data("all-workshops-2021-02-04.csv")
 
     st.write("Titles of matching workshops according to title.")
-    title_matches = match_single_word_title(lowercase_and_clean_string(query), data)
+    title_matches = match_single_word_title(
+        lowercase_and_clean_string(query), data)
     st.write(title_matches)
 
     st.write("Titles of matching workshops according to description.")
