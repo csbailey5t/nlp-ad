@@ -1,5 +1,3 @@
-from wsgiref import simple_server
-import pandas as pd
 import spacy
 import streamlit as st
 
