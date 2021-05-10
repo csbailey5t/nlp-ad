@@ -1711,7 +1711,7 @@ version = "3.5.1"
 notebook = ">=4.4.1"
 
 [metadata]
-content-hash = "e67d393199eb6d81d8acb331d1154a60762a59c0742e4ebcf3d75b2e956e0fbd"
+content-hash = "c82e0c4509c11644b5e73baeac784ba58c52c7fe5ff0507d862cca34e466923e"
 lock-version = "1.0"
 python-versions = "^3.9"
 

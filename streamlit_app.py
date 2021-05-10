@@ -8,6 +8,7 @@ from ui_pages.home import home
 from ui_pages.title_similarity import query_section
 from ui_pages.tfidf import query_tfidf
 from ui_pages.simple_keyword import simple_search
+from ui_pages.cluster import cluster
 
 
 def main():
@@ -28,6 +29,7 @@ def main():
             "Title similarity search",
             "Tf-idf keyword search",
             "Simple query search",
+            "Cluster workshops",
         ],
     )
 
@@ -46,6 +48,8 @@ def main():
         query_tfidf()
     elif selected_level == "Simple query search":
         simple_search()
+    elif selected_level == "Cluster workshops":
+        cluster()
 
 
 if __name__ == "__main__":
