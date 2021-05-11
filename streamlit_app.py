@@ -9,7 +9,7 @@ from ui_pages.title_similarity import query_section
 from ui_pages.tfidf import query_tfidf
 from ui_pages.simple_keyword import simple_search
 from ui_pages.cluster import cluster
-from ui_pages.catalog_search import view_catalog_results
+from ui_pages.catalog_search import match_workshops
 
 
 def main():
@@ -53,7 +53,7 @@ def main():
     elif selected_level == "Cluster workshops":
         cluster()
     elif selected_level == "Search catalog":
-        view_catalog_results()
+        match_workshops()
 
 
 if __name__ == "__main__":
