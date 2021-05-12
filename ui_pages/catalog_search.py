@@ -21,11 +21,16 @@ def get_catalog_results(query: str) -> DataFrame:
 def load_data(fn: str, title_col: str, body_col: str) -> DataFrame:
     """
     Takes a path to csv file, loads data from title and body cols
+    Dedups data based on title
+
     Parameters:
     fn (string): path/to/file
     title_col (string): string title of column containing workshop titles
+    body_col (string): string title of column containing wokshop descriptions
     """
-    return pd.read_csv(fn, usecols=[f"{title_col}", f"{body_col}"])
+    df = pd.read_csv(fn, usecols=[f"{title_col}", f"{body_col}"])
+    df.drop_duplicates(subset=["title"], keep="last", inplace=True)
+    return df
 
 
 def build_corpus(fn: str, title_col: str, body_col: str, model: Language) -> List[Doc]:
