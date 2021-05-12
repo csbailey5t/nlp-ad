@@ -1,10 +1,15 @@
 import JSON_scraper
 import json
+import streamlit as st
+import pandas as pd
 
-JSON_search = input("Enter the JSON value you are interested in: ")
+# Function to load JSON data, taking in # of rows for display
+@st.cache
+def load_data(nrows):
+    data = pd.read_json('catalog_results_metadata.json')
+    return data
 
-fp = open('catalog_results_metadata.json')
-data = json.load(fp)
-for i in range(len(data)):
-    print(data[i][JSON_search])
-fp.close()
+data = load_data(50)
+st.title('Catalog JSON Extraction')
+st.subheader('Raw data')
+st.dataframe(data)
