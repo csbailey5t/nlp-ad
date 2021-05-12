@@ -1,6 +1,6 @@
-from re import I, search
 from pandas.core.frame import DataFrame
 import pandas as pd
+import re
 import spacy
 from spacy.language import Language
 from spacy.tokens import Doc
@@ -31,9 +31,17 @@ def load_data(fn: str, title_col: str, body_col: str) -> DataFrame:
 def build_corpus(fn: str, title_col: str, body_col: str, model: Language) -> List[Doc]:
 
     df = load_data(fn, title_col, body_col)
-    df_combined = df.assign(title_body=df[f"{title_col}"] + df[f"{body_col}"])
-    docs = list(model.pipe(content for content in df_combined["title_body"]))
+    # df_combined = df.assign(title_body=df[f"{title_col}"] + df[f"{body_col}"])
+    # docs = list(model.pipe(content for content in df_combined["title_body"]))
+
+    # for the moment, just use titles until we figure out data cleaning of summaries
+    docs = list(model.pipe(content for content in df["title"]))
     return docs
+
+
+def strip_html_tags(text: str) -> str:
+    tag = re.compile("<.*?>")
+    return re.sub(tag, "", text)
 
 
 def extract_catalog_query(catalog_df: DataFrame, title_col: str, desc_col: str) -> str:
@@ -48,8 +56,13 @@ def extract_catalog_query(catalog_df: DataFrame, title_col: str, desc_col: str) 
         title_desc=catalog_df[f"{title_col}"] + catalog_df[f"{desc_col}"]
     )
 
-    combined = df_combined["title_desc"].to_list()
-    return " ".join(content for content in combined if type(content) == str)
+    # combined = df_combined["title_desc"].to_list()
+    # return " ".join(
+    #     [strip_html_tags(content) for content in combined if type(content) == str]
+    # )
+
+    # For now, just return a string of combined titles
+    return " ".join(catalog_df[f"{title_col}"])
 
 
 def match_workshops():
@@ -59,13 +72,16 @@ def match_workshops():
     query = st.text_input("Search phrase", "data science")
 
     catalog_data = get_catalog_results(query)
+    st.subheader("Results from the catalog are:")
     st.write(catalog_data)
 
     catalog_query = extract_catalog_query(catalog_data, "title", "summary")
-
+    st.subheader("The query passed to the similarity function:")
+    st.write(catalog_query)
     nlp = spacy.load("en_core_web_md")
     fn = "all-workshops-2021-02-04.csv"
     docs = build_corpus(fn, "title", "body", nlp)
 
     matches = get_similar_titles(catalog_query, docs, nlp, 0.8)
+    st.subheader("Matching workshops:")
     st.write(matches)
