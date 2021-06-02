@@ -25,3 +25,15 @@ This project uses Streamlit to provide a front end for exploration of our data a
 `streamlit run streamlit_app.py`
 
 The top-level script of the app is at the root of the project directory. Individual pages are separate Python files in the `ui_pages` directory, and expose functions imported into the top-level script for use.
+
+## FastAPI app
+
+This project includes an API app as a POC for how this work could be incorporated into existing, non-Python library applications. The main file for the API is `app.py`.
+
+To run the API app locally, within an active virtual environment:
+
+`uvicorn app:app --reload`
+
+The app will run, by default, at `http://localhost:8000`. This endpoint simply returns a random, upcoming NC State University Libraries workshop.
+
+The second endpoint, at `http://localhost:8000/keyword`, accepts a query parameter, `q`, and returns upcoming workshops that match based on keywords extracted from the workshop descriptions. For instance, `http://localhost:8000/keyword?q=data+visualization` returns a JSON list of workshops where either `data` or `visualization` is in an extracted keyword.
