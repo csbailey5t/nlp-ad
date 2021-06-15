@@ -10,6 +10,8 @@ from ui_pages.tfidf import query_tfidf
 from ui_pages.simple_keyword import simple_search
 from ui_pages.cluster import cluster
 from ui_pages.catalog_search import match_workshops
+from ui_pages.catalog_keyword_match import match_catalog_keywords
+from ui_pages.api_poc import api_poc
 
 
 def main():
@@ -32,6 +34,8 @@ def main():
             "Simple query search",
             "Cluster workshops",
             "Search catalog",
+            "Match catalog keywords",
+            "API POC",
         ],
     )
 
@@ -54,6 +58,10 @@ def main():
         cluster()
     elif selected_level == "Search catalog":
         match_workshops()
+    elif selected_level == "Match catalog keywords":
+        match_catalog_keywords()
+    elif selected_level == "API POC":
+        api_poc()
 
 
 if __name__ == "__main__":
