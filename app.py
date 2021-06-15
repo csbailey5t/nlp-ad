@@ -6,6 +6,7 @@ import pytextrank
 
 from fastapi import FastAPI
 from spacy.language import Language
+from match_titles import get_similar_titles
 
 from typing import Any, List, Tuple
 
@@ -64,3 +65,16 @@ async def keyword(q: str):
     ]
     matching_indices = match_single_word(q, workshop_keywords)
     return [data[i] for i in matching_indices]
+
+
+@app.get("/titlesimilarity")
+async def title_similarity(q: str) -> List[Tuple]:
+    """
+    Given a catalog title string, return similar workshop titles
+    """
+    workshop_data = await get_json_api_data(workshops_url)
+    workshop_corpus = list(
+        nlp.pipe([title for title in [item["title"] for item in workshop_data]])
+    )
+    matches = get_similar_titles(q, workshop_corpus, nlp, 0.6)
+    return matches

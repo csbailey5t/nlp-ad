@@ -26,6 +26,8 @@ This project uses Streamlit to provide a front end for exploration of our data a
 
 The top-level script of the app is at the root of the project directory. Individual pages are separate Python files in the `ui_pages` directory, and expose functions imported into the top-level script for use.
 
+The Streamlit app contains a page, API POC, that integrates the Libraries' catalog search with the API server detailed below. Given a search query, the page will return the top catalog API results for the query, and the results from the keyword extraction endpoint of the workshops API for the same query.
+
 ## FastAPI app
 
 This project includes an API app as a POC for how this work could be incorporated into existing, non-Python library applications. The main file for the API is `app.py`.

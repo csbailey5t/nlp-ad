@@ -1,8 +1,10 @@
 import pandas as pd
+import re
 import requests
 import streamlit as st
 
 from JSON.JSON_scraper import search_catalog
+from match_titles import get_similar_titles
 
 
 @st.cache()
@@ -23,6 +25,13 @@ def api_poc():
     st.write(catalog_data)
 
     st.subheader("Results from the API")
-    api_data = requests.get(f"http://localhost:8000/keyword?q={query}").json()
-    api_data_df = pd.DataFrame(api_data)
-    st.write(api_data_df)
+    api_keyword_data = requests.get(f"http://localhost:8000/keyword?q={query}").json()
+    api_keyword_data_df = pd.DataFrame(api_keyword_data)
+    st.write(api_keyword_data_df)
+
+    st.subheader("Results from title similiarity")
+    title_query = " ".join(catalog_data["title"])
+    api_similarity_data = requests.get(
+        f"http://localhost:8000/titlesimilarity?q={title_query}"
+    ).json()
+    st.write(api_similarity_data)
