@@ -26,7 +26,7 @@ This project uses Streamlit to provide a front end for exploration of our data a
 
 The top-level script of the app is at the root of the project directory. Individual pages are separate Python files in the `ui_pages` directory, and expose functions imported into the top-level script for use.
 
-The Streamlit app contains a page, API POC, that integrates the Libraries' catalog search with the API server detailed below. Given a search query, the page will return the top catalog API results for the query, and the results from the keyword extraction endpoint of the workshops API for the same query.
+The Streamlit app contains a page, API POC, that integrates the Libraries' catalog search with the API server detailed below. Given a search query, the page will return the top catalog API results for the query, the results from the keyword extraction endpoint of the workshops API for the same query, and workshop titles that match based on similarity. This page of the app currently works only locally, and requires the FastAPI server to be running locally as well. 
 
 ## FastAPI app
 
@@ -39,3 +39,5 @@ To run the API app locally, within an active virtual environment:
 The app will run, by default, at `http://localhost:8000`. This endpoint simply returns a random, upcoming NC State University Libraries workshop.
 
 The second endpoint, at `http://localhost:8000/keyword`, accepts a query parameter, `q`, and returns upcoming workshops that match based on keywords extracted from the workshop descriptions. For instance, `http://localhost:8000/keyword?q=data+visualization` returns a JSON list of workshops where either `data` or `visualization` is in an extracted keyword.
+
+The third endpoint, at `http://localhost:8000/titlesimilarity`, accepts a query parameter, `q`, and returns upcoming workshops whose titles meet a sufficient threshhold according to vector similarity, determined by the spaCy `en_core_web_md` model. 
