@@ -17,7 +17,7 @@ def api_poc():
     st.subheader("POC for connecting catalog and API")
 
     with st.form(key="catalog_search"):
-        query = st.text_input(label="Search the catalog")
+        query = st.text_input(label="Search the catalog", value="data")
         submit_button = st.form_submit_button(label="Submit catalog search")
 
     catalog_data = get_catalog_results(query)
