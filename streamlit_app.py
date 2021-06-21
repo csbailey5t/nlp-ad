@@ -12,6 +12,7 @@ from ui_pages.cluster import cluster
 from ui_pages.catalog_search import match_workshops
 from ui_pages.catalog_keyword_match import match_catalog_keywords
 from ui_pages.api_poc import api_poc
+from ui_pages.keyword_extraction import extract_keywords 
 
 
 def main():
@@ -36,6 +37,7 @@ def main():
             "Search catalog",
             "Match catalog keywords",
             "API POC",
+            "Keyword extraction"
         ],
     )
 
@@ -62,6 +64,8 @@ def main():
         match_catalog_keywords()
     elif selected_level == "API POC":
         api_poc()
+    elif selected_level == "Keyword extraction":
+        extract_keywords()
 
 
 if __name__ == "__main__":
